@@ -1,0 +1,31 @@
+{{- if .Values.serviceAccount.rbac.create -}}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: {{ include "k8s-snapshots.serviceAccountName" . }}
+rules:
+  - apiGroups: ["k8ssnapshots.io"]
+    resources: ["snapshotrules"]
+    verbs: ["get", "watch", "list"]
+  - apiGroups: [""]
+    resources: ["persistentvolumeclaims"]
+    verbs: ["get", "watch", "list"]
+  - apiGroups: ["snapshot.storage.k8s.io"]
+    resources: ["volumesnapshots"]
+    verbs: ["get", "watch", "list", "create", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "k8s-snapshots.serviceAccountName" . }}
+  namespace: {{ .Release.Namespace }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "k8s-snapshots.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole #this must be Role or ClusterRole
+  name: {{ include "k8s-snapshots.serviceAccountName" . }}
+  apiGroup: rbac.authorization.k8s.io
+{{- end }}
