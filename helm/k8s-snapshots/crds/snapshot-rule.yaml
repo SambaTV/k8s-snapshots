@@ -24,6 +24,8 @@ spec:
               required:
                 - selector
               properties:
+                snapshotClassName:
+                  type: string
                 selector:
                   type: object
                   properties:

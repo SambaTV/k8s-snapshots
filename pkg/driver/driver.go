@@ -123,6 +123,11 @@ func (d SnapshotDriver) createSnapshot(rule v1alpha1.SnapshotRule, pvc v1.Persis
 	currentTime := time.Now()
 	snapshotName := fmt.Sprintf("%s-%s", pvc.Name, currentTime.Format("2006-01-02"))
 
+	snapshotClassName := rule.Spec.SnapshotClassName
+	if snapshotClassName != "" {
+		snapshotClassName = d.snapshotClassName
+	}
+
 	snapshot := &snapshotterapiv1.VolumeSnapshot{
 		TypeMeta: metav1.TypeMeta{},
 		ObjectMeta: metav1.ObjectMeta{
@@ -140,7 +145,7 @@ func (d SnapshotDriver) createSnapshot(rule v1alpha1.SnapshotRule, pvc v1.Persis
 				PersistentVolumeClaimName: &pvc.Name,
 				VolumeSnapshotContentName: nil,
 			},
-			VolumeSnapshotClassName: &d.snapshotClassName,
+			VolumeSnapshotClassName: &snapshotClassName,
 		},
 		Status: nil,
 	}
@@ -253,9 +258,14 @@ func main() {
 
 	driver := NewSnapshotDriver(config)
 
+	log.Printf("Looking for snapshot rules...")
 	rules, err := driver.listSnapshotRules()
 	if err != nil {
 		panic(err)
+	}
+
+	if len(rules) == 0 {
+		log.Printf("No rules found")
 	}
 
 	for _, rule := range rules {

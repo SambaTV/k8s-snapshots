@@ -19,7 +19,8 @@ type Selector struct {
 }
 
 type SnapshotRuleSpec struct {
-	Selector Selector `json:"selector"`
+	SnapshotClassName string   `json:"snapshotClassName"`
+	Selector          Selector `json:"selector"`
 }
 
 // +genclient
