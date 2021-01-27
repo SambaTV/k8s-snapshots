@@ -3,6 +3,16 @@ entries:
   k8s-snapshots:
   - apiVersion: v2
     appVersion: 0.1.0
+    created: "2021-01-27T13:28:28.725531665Z"
+    description: A Helm chart for Kubernetes
+    digest: 2459f6c7aa077c46d88954eee12781fb30ab2c60a223af89d5c28e32767d0a2a
+    name: k8s-snapshots
+    type: application
+    urls:
+    - https://github.com/SambaTV/k8s-snapshots/releases/download/k8s-snapshots-0.1.1/k8s-snapshots-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 0.1.0
     created: "2021-01-27T12:44:35.024470288Z"
     description: A Helm chart for Kubernetes
     digest: 75b9364c0158ff08ab3256d442a9667150618c8a7fa69def6f5f1f74c02d459b
