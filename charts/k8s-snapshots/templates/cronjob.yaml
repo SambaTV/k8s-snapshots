@@ -2,7 +2,7 @@ apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
   name: k8s-snapshots
-  namespace: default
+  namespace: {{ .Release.Namespace }}
 spec:
   schedule: "*/15 * * * *"
   jobTemplate:
