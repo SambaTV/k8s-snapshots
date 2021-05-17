@@ -124,7 +124,7 @@ func (d SnapshotDriver) createSnapshot(rule v1alpha1.SnapshotRule, pvc v1.Persis
 	snapshotName := fmt.Sprintf("%s-%s", pvc.Name, currentTime.Format("2006-01-02"))
 
 	snapshotClassName := rule.Spec.SnapshotClassName
-	if snapshotClassName != "" {
+	if snapshotClassName == "" {
 		snapshotClassName = d.snapshotClassName
 	}
 
